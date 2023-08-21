@@ -54,7 +54,7 @@ body {
     gap: 3px;
 }
 
-#buttons-container-button {
+#buttons-container button {
     border: 1px solid transparent;
     border-radius: 0;
     height: 4em;

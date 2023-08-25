@@ -11,13 +11,78 @@ class Calculator {
     // adicionar digito na tela da calculadora
     addDigit(digit) {
 
+        if (digit === "." && this.currentOperationText.innerText.includes(".")) {
+            return;
+        }
+
         this.currentOperation = digit;
         this.updateScreen();
     }
 
+    // processar as operações
+    processOperation(operation) {
+
+        // pegar valores atuais e anteriores
+        let operationValue
+        const previous = +this.previousOperationText.innerText.split(" ")[0];
+        const current = +this.currentOperationText.innerText;
+
+        switch (operation) {
+            case "+":
+                operationValue = previous + current
+                this.updateScreen(
+                    operationValue,
+                    operation,
+                    current,
+                    previous)
+                break; case "-":
+                operationValue = previous - current
+                this.updateScreen(
+                    operationValue,
+                    operation,
+                    current,
+                    previous)
+                break; case "/":
+                operationValue = previous / current
+                this.updateScreen(
+                    operationValue,
+                    operation,
+                    current,
+                    previous)
+                break; case "*":
+                operationValue = previous * current
+                this.updateScreen(
+                    operationValue,
+                    operation,
+                    current,
+                    previous)
+                break;
+            default:
+                return;
+        }
+
+    }
+
     // mudar o valor da tela da calculadora
-    updateScreen() {
-        this.currentOperationText.innerText += this.currentOperation;
+    updateScreen(
+        operationValue = null,
+        operation = null,
+        current = null,
+        previous = null
+    ) {
+
+        if (operationValue === null) {
+            this.currentOperationText.innerText += this.currentOperation;
+        } else {
+            // Verifique se o valor é zero, se for apenas adicione o valor atual
+            if (previous === 0) {
+                operationValue = current
+            }
+
+            // Adicione o valor atual ao anterior
+            this.previousOperationText.innerText = `${operationValue} ${operation}`;
+            this.currentOperationText.innerText = "";
+        }
     }
 }
 
@@ -30,7 +95,7 @@ buttons.forEach((btn) => {
         if (+value >= 0 || value === ".") {
             calc.addDigit(value);
         } else {
-            console.log("Op: " + value);
+            calc.processOperation(value);
         }
     });
 });

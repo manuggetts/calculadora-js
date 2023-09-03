@@ -65,6 +65,9 @@ class Calculator {
                     current,
                     previous)
                 break;
+            case "DEL":
+                this.processDelOperation();
+                break;
             default:
                 return;
         }
@@ -102,7 +105,12 @@ class Calculator {
             return
         }
 
-        this.previousOperationText.innerText = this.previousOperationText.innerText.slice(0, -1) + operation;
+        this.previousOperationText.innerText =
+            this.previousOperationText.innerText.slice(0, -1) + operation;
+    }
+    // Deleta o último dígito
+    processDelOperation() {
+        this.currentOperationText.innerText = this.currentOperationText.innerText.slice(0, -1);
     }
 }
 
